@@ -1,0 +1,19 @@
+{
+    "name": "alxmsl/cronmanager",
+    "description": "Cron manager for PHP",
+    "keywords": ["cron", "crontab"],
+    "license": "WTFPL",
+    "authors": [
+        {
+            "name": "alxmsl",
+            "email": "alexey.y.maslov@gmail.com"
+        }
+    ],
+    "support": {
+        "email": "alexey.y.maslov@gmail.com",
+        "issues": "https://github.com/alxmsl/CronManager/issues"
+    },
+    "autoload": {
+        "psr-4": {"alxmsl\\CronManager\\": "source/"}
+    }
+}
