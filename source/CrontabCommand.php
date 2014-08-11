@@ -49,7 +49,7 @@ final class CrontabCommand implements Serializable {
      */
     public function setExpression($expression) {
         if (preg_match(self::EXPRESSION, $expression)) {
-            $this->expression = (string) $expression;
+            $this->expression = trim($expression);
             return $this;
         } else {
             throw new InvalidArgumentException();
@@ -70,7 +70,7 @@ final class CrontabCommand implements Serializable {
      * @return CrontabCommand self instance
      */
     public function setEnvironment($environment) {
-        $this->environment = (string) $environment;
+        $this->environment = trim($environment);
         return $this;
     }
 
@@ -88,7 +88,7 @@ final class CrontabCommand implements Serializable {
      * @return CrontabCommand self instance
      */
     public function setCommand($command) {
-        $this->command = (string) $command;
+        $this->command = trim($command);
         return $this;
     }
 
@@ -113,7 +113,7 @@ final class CrontabCommand implements Serializable {
      * @return string serialized value of the command
      */
     public function serialize() {
-        return sprintf('%s %s %s', $this->expression, $this->environment, $this->command);
+        return sprintf('%s %s %s', $this->getExpression(), $this->getEnvironment(), $this->getCommand());
     }
 
     /**
@@ -127,8 +127,8 @@ final class CrontabCommand implements Serializable {
             $parts = [];
             $found = preg_match(self::EXPRESSION, $command, $parts);
             if ($found) {
-                $this->expression = $parts[1];
-                $this->command = substr($command, strlen($this->expression) + 1);
+                $this->setExpression($parts[1]);
+                $this->setCommand(substr($command, strlen($this->expression) + 1));
             }
         }
     }
