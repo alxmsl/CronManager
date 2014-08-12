@@ -57,7 +57,7 @@ final class Crontab {
      */
     public function delete($expression) {
         $this->commands = array_filter($this->commands, function(CrontabCommand $Command) use ($expression) {
-            return !preg_match($expression, sprintf('%s %s', $Command->getEnvironment(), $Command->getCommand()));
+            return !preg_match($expression, sprintf('%s %s %s', $Command->getEnvironment(), $Command->getCommand(), $Command->getArguments()));
         });
         return $this;
     }
@@ -69,7 +69,7 @@ final class Crontab {
      */
     public function get($expression) {
         return array_filter($this->commands, function(CrontabCommand $Command) use ($expression) {
-            return preg_match($expression, sprintf('%s %s', $Command->getEnvironment(), $Command->getCommand()));
+            return preg_match($expression, sprintf('%s %s %s', $Command->getEnvironment(), $Command->getCommand(), $Command->getArguments()));
         });
     }
 

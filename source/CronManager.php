@@ -100,9 +100,10 @@ final class CronManager {
 
     /**
      * Update crontab method
+     * @param bool $byArguments update crontab by arguments or by command
      * @throws RuntimeException when lock could not acquire
      */
-    public function update() {
+    public function update($byArguments = false) {
         $result = true;
         if (!is_null($this->Locker)) {
             $result = $this->Locker->lock();
@@ -111,7 +112,8 @@ final class CronManager {
         if ($result) {
             $this->CurrentCrontab = new Crontab();
             foreach ($this->commands as $Command) {
-                $this->CurrentCrontab->delete(sprintf('!%s!', preg_quote($Command->getCommand())));
+                $expression = $byArguments ? $Command->getArguments() : $Command->getCommand();
+                $this->CurrentCrontab->delete(sprintf('!%s!', preg_quote($expression)));
                 $this->CurrentCrontab->add($Command);
             }
             $this->CurrentCrontab->save();

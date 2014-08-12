@@ -38,6 +38,11 @@ final class CrontabCommand implements Serializable {
     private $command = '';
 
     /**
+     * @var string command execution arguments
+     */
+    private $arguments = '';
+
+    /**
      * @var bool is a comment string
      */
     private $isComment = false;
@@ -101,6 +106,24 @@ final class CrontabCommand implements Serializable {
     }
 
     /**
+     * Command arguments setter
+     * @param string $arguments command arguments
+     * @return CrontabCommand self instance
+     */
+    public function setArguments($arguments) {
+        $this->arguments = trim($arguments);
+        return $this;
+    }
+
+    /**
+     * Command arguments getter
+     * @return string command arguments
+     */
+    public function getArguments() {
+        return $this->arguments;
+    }
+
+    /**
      * Is comment string getter
      * @return boolean if command is a comment string
      */
@@ -113,7 +136,7 @@ final class CrontabCommand implements Serializable {
      * @return string serialized value of the command
      */
     public function serialize() {
-        return sprintf('%s %s %s', $this->getExpression(), $this->getEnvironment(), $this->getCommand());
+        return sprintf('%s %s %s %s', $this->getExpression(), $this->getEnvironment(), $this->getCommand(), $this->getArguments());
     }
 
     /**
